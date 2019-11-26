@@ -1,14 +1,147 @@
-﻿
+﻿@model IEnumerable<ContestantSystem.Web.ViewModel.Contestant_VM>
 @{
     ViewBag.Title = "Index";
 }
-
+<link href="~/Plugin/jquery-confirm/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/Plugin/Datatable/datatables.min.css" rel="stylesheet" />
 
 <div class="container-fluid">
     @Html.ActionLink("Add New", "Create", null, new { @class = "btn  btn-danger" })
 
+    <hr />
+
     <h2>Contestant  Index</h2>
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="tbl_Contestant">
+            <thead>
+                <tr>
+                    <th>SN#</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateOfBirth)
+                    </th>
+                    <th>
+                        @Html.DisplayName("District")
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Gender)
+                    </th>
+
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfBirth)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.District.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gender)
+                        </td>
+
+                        <td>
+
+                            @Html.ActionLink(" ", "Edit", new { id = item.Id }, new { @class = "glyphicon glyphicon-pencil" }) <span>|</span>
+
+
+
+                            @using (Html.BeginForm("Delete", "Contestant", new { id = item.Id }, FormMethod.Post, new { @id = "DeleteForm_" + item.Id , @style="display: inline;"}))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <a href="#" class="Delete_Contestant" data-id="@item.Id" data-name="@item.FullName"><span class="glyphicon glyphicon-trash"></span></a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
 </div>
+
+@section Scripts{
+    <script src="~/Plugin/jquery-confirm/jquery-confirm.min.js"></script>
+    <script src="~/Plugin/Datatable/datatables.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            
+            
+
+            $(".Delete_Contestant").on('click', function (e) {
+                e.preventDefault();
+                var name = $(this).data("name");
+                var id = $(this).data("id");
+                var newid = '#DeleteForm_' + id;
+                $.confirm({
+                    title: 'Confirm!',
+                    content: 'Are you sure you want delete <b>' + name + '</b>?',
+                    buttons: {
+                        confirm: {
+                            text: 'Yes',
+                            btnClass: 'btn-danger',
+                            keys: ['enter'],
+                            action: function () {
+                                $(newid).submit();
+                            }
+                        },
+                        cancel: {
+                            text: 'No',
+                            btnClass: 'btn-info',
+                            keys: ['esc'],
+                            action: function () {
+                                $.alert('Delete Action Was Cancelled!');
+                            }
+                        },
+                    }
+                });
+            });
+
+
+            /// Applying S.N.
+            var t = $('#tbl_Contestant').DataTable({
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [[1, 'asc']]
+            });
+
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+
+            var message = '@TempData["Message"]';
+            if (message != null) {
+
+                if (message.length>o) {
+                     alert(message);
+                }
+               
+            }
+
+        });
+    </script>
+}
 
 
 

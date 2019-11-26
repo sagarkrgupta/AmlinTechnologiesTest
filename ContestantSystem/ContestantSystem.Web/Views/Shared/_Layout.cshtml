@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Amnil</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Plugin/lobibox/dist/css/lobibox.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,7 +21,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                  
+
                     <li>@Html.ActionLink("Contestant", "Index", "Contestant")</li>
                     <li>@Html.ActionLink("Contestant Rating", "Index", "ContestantRating")</li>
                     <li>@Html.ActionLink("Photo Gallery", "Index", "Gallery")</li>
@@ -40,6 +41,28 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Plugin/lobibox/dist/js/lobibox.min.js"></script>
+
+    <script type="text/javascript">
+
+        var ShowError = function (type,title,message) {
+
+            Lobibox.notify(type.toLowerCase() || 'error', {
+                title: title ||'No title',
+                size: 'mini',
+                rounded: false,
+                delayIndicator: true,
+                msg: message ||'No Content provided'
+            });
+        }
+
+
+        var stringArray = @Html.Raw(Json.Encode(TempData["Message"]));
+        if (stringArray != null) {
+            ShowError(stringArray[0], stringArray[1], stringArray[2]);
+        }
+    </script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

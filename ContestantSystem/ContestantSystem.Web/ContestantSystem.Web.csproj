@@ -45,10 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ContestantSystem.Repository\bin\Debug\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -148,9 +146,39 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Media\Default.png" />
+    <Content Include="Plugin\Datatable\datatables.min.css" />
+    <Content Include="Plugin\Datatable\datatables.min.js" />
+    <Content Include="Plugin\datetimepicker\css\bootstrap-datetimepicker-standalone.css" />
+    <Content Include="Plugin\datetimepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="Plugin\datetimepicker\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="Plugin\datetimepicker\css\bootstrap-toggle.min.css" />
+    <Content Include="Plugin\datetimepicker\css\bootstrap2-toggle.css" />
+    <Content Include="Plugin\datetimepicker\css\bootstrap2-toggle.min.css" />
+    <Content Include="Plugin\datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="Plugin\datetimepicker\js\bootstrap-toggle.js" />
+    <Content Include="Plugin\datetimepicker\js\bootstrap-toggle.min.js" />
+    <Content Include="Plugin\datetimepicker\js\bootstrap2-toggle.js" />
+    <Content Include="Plugin\datetimepicker\js\bootstrap2-toggle.min.js" />
+    <Content Include="Plugin\jquery-confirm\jquery-confirm.min.css" />
+    <Content Include="Plugin\jquery-confirm\jquery-confirm.min.js" />
+    <Content Include="Plugin\lobibox\dist\css\lobibox.css" />
+    <Content Include="Plugin\lobibox\dist\css\lobibox.min.css" />
+    <Content Include="Plugin\lobibox\dist\js\lobibox.js" />
+    <Content Include="Plugin\lobibox\dist\js\lobibox.min.js" />
+    <Content Include="Plugin\lobibox\dist\js\messageboxes.js" />
+    <Content Include="Plugin\lobibox\dist\js\messageboxes.min.js" />
+    <Content Include="Plugin\lobibox\dist\js\notifications.js" />
+    <Content Include="Plugin\lobibox\dist\js\notifications.min.js" />
+    <Content Include="Plugin\MomentJS\moment.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ConnectionString.config" />
+    <Content Include="Plugin\lobibox\dist\sounds\sound1.ogg" />
+    <Content Include="Plugin\lobibox\dist\sounds\sound2.ogg" />
+    <Content Include="Plugin\lobibox\dist\sounds\sound3.ogg" />
+    <Content Include="Plugin\lobibox\dist\sounds\sound4.ogg" />
+    <Content Include="Plugin\lobibox\dist\sounds\sound5.ogg" />
+    <Content Include="Plugin\lobibox\dist\sounds\sound6.ogg" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -208,10 +236,6 @@
     <ProjectReference Include="..\ContestantSystem.Domain\ContestantSystem.Domain.csproj">
       <Project>{c3336632-0c2a-413b-996d-62af1610d36a}</Project>
       <Name>ContestantSystem.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ContestantSystem.Repository\ContestantSystem.Repository.csproj">
-      <Project>{dc174a72-4d9e-43d2-a594-12cfd8fde54c}</Project>
-      <Name>ContestantSystem.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\ContestantSystem.Service\ContestantSystem.Service.csproj">
       <Project>{aba34c5d-d1a5-4d7d-983d-7bf0fef87076}</Project>
