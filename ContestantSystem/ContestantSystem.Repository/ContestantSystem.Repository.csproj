@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,7 +50,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContestantDB.cs" />
+    <Compile Include="ContestantDBInitializer.cs" />
+    <Compile Include="EntityConfiguration\ContestantConfiguration.cs" />
+    <Compile Include="EntityConfiguration\ContestantRatingConfiguration.cs" />
+    <Compile Include="Migrations\201911261722196_initial.cs" />
+    <Compile Include="Migrations\201911261722196_initial.Designer.cs">
+      <DependentUpon>201911261722196_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Persistance\GenericRepositories.cs" />
+    <Compile Include="Persistance\IGenericRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ContestantSystem.Common\ContestantSystem.Common.csproj">
+      <Project>{3ca02d9c-3171-4917-ba12-7fd26d6adefa}</Project>
+      <Name>ContestantSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ContestantSystem.Domain\ContestantSystem.Domain.csproj">
+      <Project>{c3336632-0c2a-413b-996d-62af1610d36a}</Project>
+      <Name>ContestantSystem.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201911261722196_initial.resx">
+      <DependentUpon>201911261722196_initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

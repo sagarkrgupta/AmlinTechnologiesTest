@@ -1,4 +1,6 @@
-﻿using ContestantSystem.Web.ViewModel;
+﻿using ContestantSystem.Service.Contestant;
+using ContestantSystem.Service.Districts;
+using ContestantSystem.Web.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +11,32 @@ namespace ContestantSystem.Web.Controllers
 {
     public class ContestantController : Controller
     {
+
+        private readonly IContestantService _Service;
+        private readonly IDistrictService _DistrictService;
+
+        public ContestantController()
+        {
+            _Service = new ContestantService();
+            _DistrictService = new DistrictService();
+        }
+
+
         // GET: Contestant
         public ActionResult Index()
         {
-            return View();
-        }
+            ViewBag.csname = ContestantSystem.Common.DBManager.GetConnectionStringName;
+            ViewBag.csvalue = ContestantSystem.Common.DBManager.DbConnect().ConnectionString;
 
-        // GET: Contestant/Details/5
-        public ActionResult Details(int id)
-        {
             return View();
+
         }
 
 
         private void LoadDDL()
         {
-            ViewBag.DistrictDDL = new List<SelectListItem> { new SelectListItem { Text="Morang", Value="1" } };
+           var list = _DistrictService.GetAllDistrict().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).ToList();
+            ViewBag.DistrictDDL = list;
         }
         // GET: Contestant/Create
         public ActionResult Create()
@@ -49,45 +61,36 @@ namespace ContestantSystem.Web.Controllers
         // GET: Contestant/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            LoadDDL();
+            return View("Create");
         }
 
         // POST: Contestant/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Contestant_VM obj)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                return View("Index");
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            LoadDDL();
+            return View("Create", obj);
         }
 
-        // GET: Contestant/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //// GET: Contestant/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: Contestant/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
+
         }
     }
 }

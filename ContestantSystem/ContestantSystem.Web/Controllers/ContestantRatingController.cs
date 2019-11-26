@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContestantSystem.Web.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,8 @@ namespace ContestantSystem.Web.Controllers
         // GET: ContestantRating
         public ActionResult Index()
         {
-            return View();
+            var list = new List<ContestantRating_VM>();
+            return View(list);
         }
     }
 }

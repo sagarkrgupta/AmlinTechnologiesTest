@@ -41,7 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contestant\ContestantService.cs" />
+    <Compile Include="Contestant\IContestantService.cs" />
+    <Compile Include="Districts\DistrictService.cs" />
+    <Compile Include="Districts\IDistrictService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ContestantSystem.Common\ContestantSystem.Common.csproj">
+      <Project>{3ca02d9c-3171-4917-ba12-7fd26d6adefa}</Project>
+      <Name>ContestantSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ContestantSystem.Domain\ContestantSystem.Domain.csproj">
+      <Project>{c3336632-0c2a-413b-996d-62af1610d36a}</Project>
+      <Name>ContestantSystem.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ContestantSystem.Repository\ContestantSystem.Repository.csproj">
+      <Project>{dc174a72-4d9e-43d2-a594-12cfd8fde54c}</Project>
+      <Name>ContestantSystem.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,38 @@
-﻿
+﻿@model IEnumerable<ContestantSystem.Web.ViewModel.ContestantRating_VM>
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Contestant Rating Index</h2>
+<h2>Contestant Rating</h2>
 
+
+<div>
+    <span>From Date: <input type="date" /> </span>
+    <span>To Date: <input type="date" /> </span>
+</div>
+
+@*<table class="table table-bordered table-responsive table-hover">
+    <tr>
+        <th>SN#</th>
+        <th>Full Name </th>
+        <th>Date Of Name </th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th>Company</th>
+        <th>Department</th>
+    </tr>
+    @foreach (var d in Model)
+    {
+        <tr>
+            <td>@d.EmployeeId</td>
+            <td>@d.FirstName</td>
+            <td>@d.LastName</td>
+            <td>@d.Email</td>
+            <td>@d.Salary</td>
+            <td>@d.Company</td>
+            <td>@d.Dept</td>
+
+        </tr>
+
+    }
+</table>*@  
