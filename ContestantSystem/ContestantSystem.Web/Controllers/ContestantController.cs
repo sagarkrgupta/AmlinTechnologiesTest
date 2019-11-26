@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -62,13 +63,13 @@ namespace ContestantSystem.Web.Controllers
                 filename = Path.Combine(Server.MapPath("~/Media/Contestant/"), filename);
                 PhotoFile.SaveAs(filename);
 
-                ViewBag.FileStatus = "File uploaded successfully.";
+                TempData["Message"] = new string[] { "success", "Contestant", "Saved and Sucessfully Image uploaded" };
 
                 return ReturnFileName;
             }
             catch (Exception)
             {
-                ViewBag.FileStatus = "Error while file uploading.";
+                TempData["Message"] = new string[] { "error", "Contestant", "Saved and Image upload Failed, Default Image Added" };
                 return "/Media/Default.png";
             }
 
@@ -101,8 +102,24 @@ namespace ContestantSystem.Web.Controllers
         // GET: Contestant/Edit/5
         public ActionResult Edit(int id)
         {
-            LoadDDL();
-            return View("Create");
+            if (id > 0)
+            {
+                var obj = _Service.GetContestantsByID(id);
+                if (obj != null)
+                {
+                    LoadDDL();
+                    return View("Create",new Contestant_VM().Domain_To_VM(obj));
+                }
+                else
+                    TempData["Message"] = new string[] { "error", "Contestant", "Something went wrong, Contestant Not Found" };
+
+            }
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+
+            return RedirectToAction("Index");
+
         }
 
         // POST: Contestant/Edit/5
@@ -136,6 +153,9 @@ namespace ContestantSystem.Web.Controllers
                     TempData["Message"] = new string[] { "error", "Contestant", "Some Error Occured While Deleting." };
                
             }
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
 
             return RedirectToAction("Index");
 
