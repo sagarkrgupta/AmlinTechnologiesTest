@@ -50,6 +50,8 @@ namespace ContestantSystem.Web.Controllers
             LoadDDL();
             var obj = new Contestant_VM();
 
+            ViewBag.ActionName = "Create";
+
             return View(obj);
         }
 
@@ -106,6 +108,7 @@ namespace ContestantSystem.Web.Controllers
 
             LoadDDL();
             TempData["Message"] = new string[] { "error", "Contestant", "Validation Error" };
+            ViewBag.ActionName = "Create";
             return View(vm);
         }
 
@@ -127,7 +130,7 @@ namespace ContestantSystem.Web.Controllers
             else
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-
+            ViewBag.ActionName = "Edit";
             return RedirectToAction("Index");
 
         }
@@ -141,14 +144,17 @@ namespace ContestantSystem.Web.Controllers
                 if (vm.PhotoFile != null)
                     vm.PhotoUrl = UploadFile(vm.PhotoFile);
 
-                _Service.UpdateContestant(vm.VM_To_Domain());
+                var obj =  vm.VM_To_Domain();
+
+                _Service.UpdateContestant(obj);
 
                 TempData["Message"] = new string[] { "success", "Contestant", "Update Succesfully." };
-                return View("Index");
+                return RedirectToAction("Index");
             }
 
             LoadDDL();
             TempData["Message"] = new string[] { "error", "Contestant", "Validation Error" };
+            ViewBag.ActionName = "Edit";
             return View("Create", vm);
         }
 

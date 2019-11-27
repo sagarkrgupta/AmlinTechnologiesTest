@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,7 @@ namespace ContestantSystem.Repository.Persistance
             if (entity==null)
                 throw new ArgumentNullException("Empty");
 
+            _Context.Entry(entity).State = EntityState.Modified;
             _Context.SaveChanges();
         }
     }

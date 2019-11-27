@@ -4,12 +4,15 @@
 }
 <link href="~/Plugin/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
-@using (Html.BeginForm("Create","Contestant",FormMethod.Post,new { enctype = "multipart/form-data" }))
+@{ string actioname = ViewBag.ActionName; }
+
+@using (Html.BeginForm(actioname, "Contestant", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.Id);
-   
+    @Html.HiddenFor(x => x.PhotoUrl);
+
 
 
     <div class="form-horizontal">
@@ -83,7 +86,7 @@
 
                     @Html.LabelFor(model => model.PhotoUrl, "Photo Upload", htmlAttributes: new { @class = "control-label" })
                     @*@Html.EditorFor(model => model.PhotoFile,  new { htmlAttributes = new { @class = "form-control", @type = "file" } })*@
-                    <input type="file" name="PhotoFile"  value="" />
+                    <input type="file" name="PhotoFile" value="" />
                     @Html.ValidationMessageFor(model => model.PhotoUrl, "", new { @class = "text-danger" })
 
                 </div>
