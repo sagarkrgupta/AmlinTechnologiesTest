@@ -3,36 +3,258 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Contestant Rating</h2>
+
+<link href="~/Plugin/Datatable/datatables.min.css" rel="stylesheet" />
+<link href="~/Plugin/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+<h2>Contestant's Rating</h2>
 
 
-<div>
-    <span>From Date: <input type="date" /> </span>
-    <span>To Date: <input type="date" /> </span>
+
+<hr />
+
+
+<div class="row">
+    <div class='col-sm-6'>
+
+        <span>From Date:</span>
+        <input type='text' class="form-control" id='datetimepicker1' />
+
+    </div>
+    <div class='col-sm-6'>
+        <span>To Date:</span>
+        <input type='text' class="form-control" id='datetimepicker2' />
+    </div>
+
+
 </div>
 
-@*<table class="table table-bordered table-responsive table-hover">
-    <tr>
-        <th>SN#</th>
-        <th>Full Name </th>
-        <th>Date Of Name </th>
-        <th>Email</th>
-        <th>Salary</th>
-        <th>Company</th>
-        <th>Department</th>
-    </tr>
-    @foreach (var d in Model)
-    {
-        <tr>
-            <td>@d.EmployeeId</td>
-            <td>@d.FirstName</td>
-            <td>@d.LastName</td>
-            <td>@d.Email</td>
-            <td>@d.Salary</td>
-            <td>@d.Company</td>
-            <td>@d.Dept</td>
 
-        </tr>
+<div class="table-responsive">
 
-    }
-</table>*@  
+
+    <table class="table table-bordered table-striped" id="tbl_ContestantRating">
+        <thead>
+            <tr>
+                <th>SN#</th>
+                <th>
+                    @Html.DisplayName("Full Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Date Of Birth")
+                </th>
+                <th>
+                    @Html.DisplayName("District")
+                </th>
+                <th>
+                    @Html.DisplayName("Average Rating")
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr data-contestantid="@item.ContestantId">
+
+                    <td></td>
+                    <td class="td_fullname">
+                        @{ var Fullname = item.Contestant.Firstname + " " + item.Contestant.Lastname; }
+
+                        @Fullname
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contestant.DateOfBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contestant.District.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating) |
+
+                        <input type="button" class="btn btn-danger btn-sm btn_UpdateRating" value="Rate Now" />
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">...</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="item">
+                    <div><h4>New Ratting</h4></div>
+
+                    <fieldset id="radio">
+                        <input type="hidden" name="contestantid" id="hidden_contestantid" value="-1" />
+
+                        <input type="radio" id="radio01" name="RatingRadio" value="1" />
+                        <label for="radio01">
+                            <span class="inner">
+                                <span class="inside-checked"></span>
+                            </span>
+                            1
+                        </label>
+
+                        <input type="radio" id="radio02" name="RatingRadio" value="2" />
+                        <label for="radio02">
+                            <span class="inner">
+                                <span class="inside-checked"></span>
+                            </span>
+                            2
+                        </label>
+
+                        <input type="radio" id="radio03" name="RatingRadio" value="3" />
+                        <label for="radio03">
+                            <span class="inner">
+                                <span class="inside-checked"></span>
+                            </span>
+                            3
+                        </label>
+
+                        <input type="radio" id="radio04" name="RatingRadio" value="4" />
+                        <label for="radio04">
+                            <span class="inner">
+                                <span class="inside-checked"></span>
+                            </span>
+                            4
+                        </label>
+
+                        <input type="radio" id="radio05" name="RatingRadio" value="5" />
+                        <label for="radio05">
+                            <span class="inner">
+                                <span class="inside-checked"></span>
+                            </span>
+                            5
+                        </label>
+
+                    </fieldset>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn_CloseModel" class="btn btn-default">Close</button>
+                <button type="button" id="btn_SaveModel" class="btn btn-primary">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+@section Scripts{
+
+
+    <script src="~/Plugin/MomentJS/moment.min.js"></script>
+
+    <script src="~/Plugin/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="~/Plugin/Datatable/datatables.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            (function () {
+
+                $('#datetimepicker1').datetimepicker({
+                    format: 'L'
+                });
+                $('#datetimepicker2').datetimepicker({
+                    format: 'L'
+                });
+
+
+                /// Applying S.N.
+                var t = $('#tbl_ContestantRating').DataTable({
+                    "columnDefs": [{
+                        "searchable": false,
+                        "orderable": false,
+                        "targets": 0
+                    }],
+                    "order": [[1, 'asc']]
+                });
+
+                t.on('order.dt search.dt', function () {
+                    t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+
+            })();
+
+            //=====================================
+
+            let $Modal = $('#myModal');
+
+            (function UIEvent() {
+
+                $('.btn_UpdateRating').on('click', function (e) {
+
+                    let tr = $(this).closest('tr');
+                    //For title
+                    $('h4.modal-title', $Modal).html(tr.find('td.td_fullname').html());
+                    //Keeping Track of contestantid
+                    $('#hidden_contestantid').val(tr.attr('data-contestantid'));
+
+                    console.log(tr.attr('data-contestantid'));
+
+
+
+                    $Modal.modal('show');
+
+                });
+
+
+                $('#btn_CloseModel').on('click', function (e) {
+
+                    $('#hidden_contestantid').val("-1");
+                    $("input[name='RatingRadio']").prop('checked',false)
+
+                    $Modal.modal('hide');
+
+                });
+                $('#btn_SaveModel').on('click', function (e) {
+
+                    var value = parseInt( $("input[name='RatingRadio']:checked").val() ) || -1;
+                  
+                    if (value<1) {
+                        //error , validation eror
+                        ShowError('error', 'Rating', 'Invalid Rating, Please Select Rating ');
+                        $("input[name='RatingRadio']").prop('checked',false)
+                        return false;
+                    }
+
+                    // Proceed further , new operation
+                    
+                    ShowError('success', 'Rating', 'inprogress... ');
+                    
+
+                });
+
+            })();
+
+
+
+
+
+
+
+
+
+
+
+        });
+    </script>
+}

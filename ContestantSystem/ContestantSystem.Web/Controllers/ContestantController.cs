@@ -1,5 +1,6 @@
 ﻿using ContestantSystem.Domain;
 using ContestantSystem.Service.Contestant;
+using ContestantSystem.Service.ContestantRating;
 using ContestantSystem.Service.Districts;
 using ContestantSystem.Web.ViewModel;
 using System;
@@ -17,11 +18,13 @@ namespace ContestantSystem.Web.Controllers
 
         private readonly IContestantService _Service;
         private readonly IDistrictService _DistrictService;
+        private readonly IContestantRatingService _ContestantRatingService;
 
         public ContestantController()
         {
             _Service = new ContestantService();
             _DistrictService = new DistrictService();
+            _ContestantRatingService = new ContestantRatingService();
         }
 
 
@@ -58,7 +61,7 @@ namespace ContestantSystem.Web.Controllers
             {
                 string ReturnFileName = string.Empty;
                 string filename = Path.GetFileNameWithoutExtension(PhotoFile.FileName) + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(PhotoFile.FileName);
-                ReturnFileName = "~/Media/Contestant/" + filename;
+                ReturnFileName = "/Media/Contestant/" + filename;
 
                 filename = Path.Combine(Server.MapPath("~/Media/Contestant/"), filename);
                 PhotoFile.SaveAs(filename);
@@ -89,13 +92,20 @@ namespace ContestantSystem.Web.Controllers
 
                 
                 var obj = vm.VM_To_Domain();
-
                 _Service.InsertContestant(obj);
-                return View("Index");
+
+                var cid = obj.Id;
+                //Insert ratting of contestant
+                _ContestantRatingService.InsertContestantRating(new ContestantRating { ContestantId = cid, RatedDate = DateTime.Now, Rating = 0 });
+
+
+                TempData["Message"] = new string[] { "success", "Contestant", "Added Succesfully." };
+                return RedirectToAction("Index");
 
             }
 
             LoadDDL();
+            TempData["Message"] = new string[] { "error", "Contestant", "Validation Error" };
             return View(vm);
         }
 
@@ -124,15 +134,22 @@ namespace ContestantSystem.Web.Controllers
 
         // POST: Contestant/Edit/5
         [HttpPost]
-        public ActionResult Edit(Contestant_VM obj)
+        public ActionResult Edit(Contestant_VM vm)
         {
             if (ModelState.IsValid)
             {
+                if (vm.PhotoFile != null)
+                    vm.PhotoUrl = UploadFile(vm.PhotoFile);
+
+                _Service.UpdateContestant(vm.VM_To_Domain());
+
+                TempData["Message"] = new string[] { "success", "Contestant", "Update Succesfully." };
                 return View("Index");
             }
 
             LoadDDL();
-            return View("Create", obj);
+            TempData["Message"] = new string[] { "error", "Contestant", "Validation Error" };
+            return View("Create", vm);
         }
 
       
@@ -146,7 +163,7 @@ namespace ContestantSystem.Web.Controllers
                 var obj = _Service.GetContestantsByID(id);
                 if (obj!=null)
                 {
-                    //_Service.RemoveContestant(obj);
+                    _Service.RemoveContestant(obj);
                     TempData["Message"] = new string[] { "success", "Contestant", "Deleted Succesfully." };
                 }
                 else

@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContestantRating\ContestantRatingService.cs" />
+    <Compile Include="ContestantRating\IContestantRatingService.cs" />
     <Compile Include="Contestant\ContestantService.cs" />
     <Compile Include="Contestant\IContestantService.cs" />
     <Compile Include="Districts\DistrictService.cs" />
