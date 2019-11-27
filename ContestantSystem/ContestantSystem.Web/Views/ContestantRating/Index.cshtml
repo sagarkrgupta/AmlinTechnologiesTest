@@ -18,14 +18,17 @@
     <div class='col-sm-6'>
 
         <span>From Date:</span>
-        <input type='text' class="form-control" id='datetimepicker1' />
+        <input type='text' class="form-control SearchDate" id='datetimepicker1' />
 
     </div>
     <div class='col-sm-6'>
         <span>To Date:</span>
-        <input type='text' class="form-control" id='datetimepicker2' />
+        <input type='text' class="form-control SearchDate" id='datetimepicker2' />
     </div>
 
+    <div>
+        <a id="btn_Search" href="#\" class="btn btn-danger">Search</a>
+    </div>
 
 </div>
 
@@ -65,13 +68,13 @@
                         @Fullname
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Contestant.DateOfBirth)
+                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", (item.Contestant.DateOfBirth)))
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Contestant.District.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Rating) |
+                        @Html.DisplayFor(modelItem => item.AverageRate) |
 
                         <input type="button" class="btn btn-danger btn-sm btn_UpdateRating" value="Rate Now" />
                     </td>
@@ -176,6 +179,17 @@
                 });
 
 
+                $('#btn_Search').on('click', function (e) {
+                   
+
+                    var hreflink = `/ContestantRating/SearchIndex?Datefrom=${$(datetimepicker1).val()}&Dateto=${$(datetimepicker2).val()}`;
+
+                    $(this).attr('href', hreflink);
+                   
+                    
+                });
+
+
                 /// Applying S.N.
                 var t = $('#tbl_ContestantRating').DataTable({
                     "columnDefs": [{
@@ -200,6 +214,10 @@
 
             (function UIEvent() {
 
+
+
+
+
                 $('.btn_UpdateRating').on('click', function (e) {
 
                     let tr = $(this).closest('tr');
@@ -220,26 +238,55 @@
                 $('#btn_CloseModel').on('click', function (e) {
 
                     $('#hidden_contestantid').val("-1");
-                    $("input[name='RatingRadio']").prop('checked',false)
+                    $("input[name='RatingRadio']").prop('checked', false)
 
                     $Modal.modal('hide');
 
                 });
                 $('#btn_SaveModel').on('click', function (e) {
 
-                    var value = parseInt( $("input[name='RatingRadio']:checked").val() ) || -1;
-                  
-                    if (value<1) {
+                    debugger;
+
+                    var value = parseInt($("input[name='RatingRadio']:checked").val()) || -1;
+
+                    if (value < 1) {
                         //error , validation eror
                         ShowError('error', 'Rating', 'Invalid Rating, Please Select Rating ');
-                        $("input[name='RatingRadio']").prop('checked',false)
+                        $("input[name='RatingRadio']").prop('checked', false)
                         return false;
                     }
+                    else {
 
-                    // Proceed further , new operation
-                    
-                    ShowError('success', 'Rating', 'inprogress... ');
-                    
+                        // Proceed further , new operation
+                        var ratingObj = {
+                            ContestantId: parseInt($('#hidden_contestantid').val()),
+                            Rating: value
+                        };
+
+                        $.ajax({
+                            async: false,
+                            cache: false,
+                            type: "POST",
+                            url: "/ContestantRating/AddNewRating",
+                            data: JSON.stringify({ obj: ratingObj }),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (msg) {
+                                console.log(msg)
+                                ShowError('success', 'Contestant Rating', 'Operation Successful,New Rating Added');
+
+                                //Refresh Page form
+                                location.reload();
+                            },
+                            Error: function (err) {
+                                console.log(err);
+                                ShowError('error', 'Contestant Rating', 'Operation Failed, unknow Error found');
+                            }
+                        });
+
+                    }
+
+
+
 
                 });
 

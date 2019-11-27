@@ -21,7 +21,7 @@ namespace ContestantSystem.Web.ViewModel
         public virtual Contestant Contestant { get; set; }
 
 
-
+        public decimal AverageRate { get; set; } = 0;
         public ContestantRating VM_To_Domain()
         {
 
