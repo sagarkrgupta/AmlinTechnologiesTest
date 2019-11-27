@@ -146,6 +146,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Media\Default.png" />
+    <Content Include="Media\mask.js" />
+    <Content Include="Media\district.js" />
     <Content Include="Plugin\Datatable\datatables.min.css" />
     <Content Include="Plugin\Datatable\datatables.min.js" />
     <Content Include="Plugin\datetimepicker\css\bootstrap-datetimepicker-standalone.css" />
