@@ -29,8 +29,29 @@
 
 
 
-    <div id='map'></div>
+<div id='map'></div>
 
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">...</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -55,9 +76,6 @@
         }).addTo(map);
 
 
-        L.geoJSON(nepalData).addTo(map);
-        L.geoJSON(maskdata).addTo(map);
-
 
 
 
@@ -76,32 +94,92 @@
             obj.ContestantIDs.push(ContestantList[index].Id);
         }
 
+
+
           function getColor(d) {
-                return d > 1000 ? '#9e0000' :
-                    d > 10  ? '#ff6666' :
-                    d > 5  ? '#4f9e00' :
+                return d > 10 ? '#9e0000' :
+                    d > 5  ? '#ff6666' :
+                    d > 4  ? '#4f9e00' :
                     d > 3  ? '#a6ff4d' :
                     d > 2   ? '#004f9e' :
                     d > 1   ? '#4da6ff' :
                     d > 0   ? '#ff33ff' :
                                 '#FFEDA0';
             }
-    
-            function style(feature) {
+
+          function style(feature) {
                 debugger;
                     return {
                         fillColor: getColor(feature.properties.ContestantIDs.length),
                         weight: 2,
                         opacity: 1,
                         color: 'white',
-                        dashArray: '3',
+                        dashArray: '2',
                         fillOpacity: 0.7
                     };
+        }
+
+          function markerOnClick(e) {
+
+                    // var DistId = e.propagatedFrom.feature.properties;
+                    // var ContestantArr = e.propagatedFrom.feature.properties.ContestantIDs;
+                    // console.log( e.propagatedFrom.feature.properties);
+
+                   var data = ContestantList.filter(x=>x.District.Name.toLowerCase()==e.propagatedFrom.feature.properties.name.toLowerCase())
+
+                    if(data!=null)
+                    {
+                        if(data.length>0)
+                        {
+
+                            var htm = RenderContestantList(data);
+
+                            $(".modal-body").html(htm);
+                            $(".modal-header").html(e.propagatedFrom.feature.properties.name.toUpperCase());
+
+                            $('#myModal').modal('show');
+
+                            return;
+                        }
+
+                    }
+                    return false;
+
+                    }
+
+          function RenderContestantList(list) {
+
+                    var htm=`<div><h3>Contestant's List </h3></div> <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr> <th>SN#</th> <th>Full Name</th>
+                                             <th>Photo</th> <th>Gender</th>
+                                              <th>District</th> </tr>
+                                    </thead> <tbody>`;
+                    let i =0;
+                    htm += list.map(x=>{
+                        i=i+1;
+                        return `<tr> <th scope="row">${i}</th>
+                            <td> ${x.Firstname +' '+ x.Lastname}  </td>
+                            <td> <img src="${x.PhotoUrl}" width="80" />  </td>
+                            <td> ${x.Gender}  </td>
+
+                            <td> ${x.District.Name}  </td>
+
+                                </tr>`;
+
+                      });
+
+
+                    htm +=`</tbody></table>
+                        </div>`;
+
+                        return htm;
                 }
 
-           L.geoJSON(nepalData,{style: style}).addTo(map);
 
-
+          L.geoJSON(nepalData,{style: style}).addTo(map).on('click', markerOnClick);
+          L.geoJSON(maskdata).addTo(map);
 
 
 

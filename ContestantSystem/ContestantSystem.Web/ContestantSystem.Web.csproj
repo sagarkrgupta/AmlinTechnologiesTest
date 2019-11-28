@@ -181,6 +181,7 @@
     <Content Include="Plugin\lobibox\dist\sounds\sound4.ogg" />
     <Content Include="Plugin\lobibox\dist\sounds\sound5.ogg" />
     <Content Include="Plugin\lobibox\dist\sounds\sound6.ogg" />
+    <None Include="Properties\PublishProfiles\Amnil - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
