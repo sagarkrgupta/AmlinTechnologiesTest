@@ -54,9 +54,13 @@
     <Compile Include="ContestantDBInitializer.cs" />
     <Compile Include="EntityConfiguration\ContestantConfiguration.cs" />
     <Compile Include="EntityConfiguration\ContestantRatingConfiguration.cs" />
-    <Compile Include="Migrations\201911261722196_initial.cs" />
-    <Compile Include="Migrations\201911261722196_initial.Designer.cs">
-      <DependentUpon>201911261722196_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201911281138592_IntialDB.cs" />
+    <Compile Include="Migrations\201911281138592_IntialDB.Designer.cs">
+      <DependentUpon>201911281138592_IntialDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911281142222_AddedTestpropertyon_ContestantRating_AverageRatting.cs" />
+    <Compile Include="Migrations\201911281142222_AddedTestpropertyon_ContestantRating_AverageRatting.Designer.cs">
+      <DependentUpon>201911281142222_AddedTestpropertyon_ContestantRating_AverageRatting.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistance\GenericRepositories.cs" />
@@ -78,8 +82,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911261722196_initial.resx">
-      <DependentUpon>201911261722196_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201911281138592_IntialDB.resx">
+      <DependentUpon>201911281138592_IntialDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911281142222_AddedTestpropertyon_ContestantRating_AverageRatting.resx">
+      <DependentUpon>201911281142222_AddedTestpropertyon_ContestantRating_AverageRatting.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -19,5 +19,7 @@ namespace ContestantSystem.Domain
 
         [ForeignKey("ContestantId")]
         public virtual Contestant Contestant { get; set; }
+
+        public decimal AverageRating { get; set; }
     }
 }
