@@ -1,2 +1,2 @@
-# AmlinTechnologiesTest By Sagar (Temp Repository)
+# Basic Layer/Onion Architecture in MVC 5 
 
